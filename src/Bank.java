@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import exceptions.AccountAlreadyExistsException;
 import exceptions.AccountException;
 import exceptions.AccountNotFoundException;
 import exceptions.InvalidValueException;
@@ -27,8 +28,21 @@ class Bank {
 
   }
 
-  void addAccount(Account acc) {
-    accounts.add(acc);
+  void addAccount(Account acc) throws AccountAlreadyExistsException {
+
+    // Questão 13:
+    try{
+      Account existent = findAccountById(acc.getId());
+
+      // Se eu não capturei o erro NotFounded, quer dizer que existe, o que eu não quero
+      throw new AccountAlreadyExistsException("ERRO: Conta já existente");
+
+    } catch (AccountNotFoundException e) {
+      accounts.add(acc);
+
+    } catch (AccountException e){
+      throw e;
+    }
   }
 
   Account findAccountById(int id) throws AccountNotFoundException {
@@ -57,6 +71,7 @@ class Bank {
     debitAcc.transfer(creditAcc, amount);
   }
 
+  // Questão 12:
   void passMonth(int idAccount) throws AccountNotFoundException, SavingsAccountInvalidException{
     Account findedId = findAccountById(idAccount);
     if(!(findedId instanceof SavingsAccount)){
