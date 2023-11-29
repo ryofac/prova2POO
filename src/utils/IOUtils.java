@@ -21,7 +21,7 @@ public class IOUtils {
         return value;
     }
      static public double getDouble(String message) {
-        double value = Double.parseDouble(message.replace(",", "."));
+        double value = Double.parseDouble(getText(message.replace(",", ".")));
         return value;
     }
     static public double getPercent(String message) throws InvalidValueException{
@@ -31,6 +31,15 @@ public class IOUtils {
         }
         return value;
 
+    }
+
+    static public void clearScreen(){
+        IOUtils.show("\n".repeat(100));
+    }
+
+    static public void enterToContinue(){
+        System.out.print("<Enter>");
+        sc.next();
     }
 
     static public void closeScanner(){
