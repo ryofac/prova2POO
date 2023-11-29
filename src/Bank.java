@@ -12,6 +12,11 @@ class Bank {
   List<Account> accounts = new ArrayList<>();
   int nextId = accounts.size();
 
+  enum ACCTYPES {
+    REGULAR,
+    SAVINGS
+  }
+
   Account createAccount(String name) {
     int accAmount = nextId;
     nextId++;
@@ -27,6 +32,24 @@ class Bank {
     return null;
 
   }
+
+  SavingsAccount createSavingsAccount(String name, double rate) {
+    int accAmount = nextId;
+    nextId++;
+    double initBalance = 0;
+    SavingsAccount newAccount;
+    try {
+      newAccount = new SavingsAccount(accAmount, name, initBalance, rate);
+      return newAccount;
+
+    } catch (InvalidValueException e) {
+      e.printStackTrace();
+    }
+    return null;
+
+  }
+  
+  
 
   void addAccount(Account acc) throws AccountAlreadyExistsException {
 
@@ -44,6 +67,7 @@ class Bank {
       throw e;
     }
   }
+  
 
   Account findAccountById(int id) throws AccountNotFoundException {
     Optional<Account> founded = accounts.stream().filter(elemento -> id == elemento.id).findFirst();

@@ -2,6 +2,8 @@ package utils;
 
 import java.util.Scanner;
 
+import exceptions.InvalidValueException;
+
 public class IOUtils {
     private static Scanner sc = new Scanner(System.in, "UTF-8").useDelimiter("\n");
 
@@ -10,13 +12,25 @@ public class IOUtils {
     }
 
     static public String getText(String message) {
-        System.out.println(message);
+        System.out.print(message);
         return sc.next().trim().toLowerCase();
     }
     
     static public int getInt(String message) {
         int value = Integer.parseInt(getText(message));
         return value;
+    }
+     static public double getDouble(String message) {
+        double value = Double.parseDouble(message.replace(",", "."));
+        return value;
+    }
+    static public double getPercent(String message) throws InvalidValueException{
+        double value = getDouble(message);
+        if(value < 0 || value > 100){
+            throw new InvalidValueException("ERRO: O valor deve ser uma porcentagem");
+        }
+        return value;
+
     }
 
     static public void closeScanner(){

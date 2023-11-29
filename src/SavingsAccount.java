@@ -1,17 +1,17 @@
 import exceptions.InvalidValueException;
 
 public class SavingsAccount extends Account {
-    double tax;
-    public SavingsAccount(int id, String name, double tax){
+    double rate;
+    public SavingsAccount(int id, String name, double rate){
         super(id, name);
-        this.tax = tax;
+        this.rate = rate;
     }
-    public SavingsAccount(int id, String name, double tax, double balance) throws InvalidValueException {
+    public SavingsAccount(int id, String name, double rate, double balance) throws InvalidValueException {
         super(id, name, balance);
-        this.tax = tax;
+        this.rate = rate;
     }
 
     void passMonth() throws InvalidValueException{
-        deposit(getBalance() * tax);
+        deposit(getBalance() * rate);
     }
 }
