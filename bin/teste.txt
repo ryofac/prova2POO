@@ -1,8 +1,0 @@
-// Tentando transferir da conta Ryan (saldo 0) 100 reais para conta Lívia
-
-Digite o número da conta para quem você quer transferir: 1
-Digite o quanto você quer transferir (R$): 100
-Não se pode transferir para conta destino: Número: 1 | Titular: Lívia
-Saldo (R$ 0.00) menor que o valor desejado (R$ 100.00)
-
-// O que ocorreu é que a exceção foi lançada pelo transferir da conta e tratada na Classe APP
