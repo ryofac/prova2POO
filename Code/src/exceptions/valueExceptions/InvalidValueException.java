@@ -1,4 +1,6 @@
-package exceptions;
+package exceptions.valueExceptions;
+
+import exceptions.AppException;
 
 public class InvalidValueException extends AppException {
 

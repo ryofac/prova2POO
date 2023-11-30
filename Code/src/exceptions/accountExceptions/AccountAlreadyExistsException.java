@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.accountExceptions;
 
 public class AccountAlreadyExistsException extends AccountException{
 

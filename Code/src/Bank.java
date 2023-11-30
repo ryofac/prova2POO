@@ -12,11 +12,6 @@ class Bank {
   List<Account> accounts = new ArrayList<>();
   int nextId = accounts.size();
 
-  enum ACCTYPES {
-    REGULAR,
-    SAVINGS
-  }
-
   Account createAccount(String name) {
     int accAmount = nextId;
     nextId++;
@@ -51,7 +46,6 @@ class Bank {
   
   
 
-  // Classe App
   void addAccount(Account acc) throws AccountAlreadyExistsException {
 
     // Questão 13:
@@ -68,13 +62,16 @@ class Bank {
       throw e;
     }
   }
-  // * Questão 8
-  // Somente o método Consultar foi implementado por estar utilizando uma ArrayList que implementa uma lista dinâmica
-  // Caso fosse um Array, a operação consultar por índice seria necessária e funcionaria da seguinte forma:
-  //  > Buscaria no array um índice em específico por meio de um for
-  //  > Ao encontrar o elemento, faria com que ele recebesse o endereço do próximo e assim sucessivamente
-  //  > Ao final, o elemento não teria referência do objeto em memória e seria apagado pelo garbage collector
-  // Se o índice nunca for encontrado, seria jogado uma AccountNotFoundException
+
+  /*  Questão 8
+  Somente o método Consultar foi implementado por estar utilizando uma ArrayList que implementa uma lista dinâmica
+  Caso fosse um Array, a operação consultar por índice seria necessária e funcionaria da seguinte forma:
+  > Buscaria no array um índice em específico por meio de um for
+  > Ao encontrar o elemento, faria com que ele recebesse o endereço do próximo e assim sucessivamente
+  > Ao final, o elemento não teria referência do objeto em memória e seria apagado pelo garbage collector
+    Se o índice nunca for encontrado, seria jogado uma AccountNotFoundException 
+  */
+  
   Account findAccountById(int id) throws AccountNotFoundException {
     Optional<Account> founded = accounts.stream().filter(elemento -> id == elemento.id).findFirst();
 

@@ -1,0 +1,3 @@
+Ignorar Operacao - sua principal desvantagem é que não se sabe se a operação deu certo ou não em outros escopos
+Retornar um código de erro - o seu problema se refere a gerência e propagação de vários estados diferentes no programa o que se torna dificultoso.
+Exibir erro na interface visual: sua principal desvantagem é a limitação a apenas uma interface visual, como por exemplo o terminal

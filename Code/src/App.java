@@ -225,14 +225,12 @@ public class App {
       try {
         Runnable stackTop = viewStack.peek();
         stackTop.run();
-        // ... loop principal do app
         // Questao 15: Capturando Exceções que cancelem o input de dados
       } catch (NumberFormatException e){
         IOUtils.show("Digite um valor válido...");
       } catch (Exception e){
         IOUtils.show("Um erro ocorreu...");
         IOUtils.show("ERRO! " + e.getMessage());
-        // ...
       } finally {
         IOUtils.enterToContinue();
       }

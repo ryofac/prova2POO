@@ -1,0 +1,29 @@
+As três formas mais comuns de tratamento de erro são:
+    Ignorar o erro: esse método consiste em desconsiderar a operação totalmente em caso de erro
+
+        public void withdraw(double amount){
+            if (amount > balance) {
+                return;
+            }
+            this.balance -= amount;
+        }
+        
+    Retornar um código de erro: Esse método consiste em retornar um código de erro em caso de erro, que pode ser propagado por outras funções/métodos no programa.
+
+        public boolean withdraw(double amount){
+            if (amount > balance) {
+                return false;
+            }
+            this.balance -= amount;
+            return true;
+        }
+
+    Retornar uma mensagem de erro: Esse método consiste em exibir uma mensagem na tela em caso de erro:
+
+        public void withdraw(double amount){
+            if (amount > balance) {
+                System.out.println("erro: saldo não suficiente !")
+                return;
+            }
+            this.balance -= amount;
+        }

@@ -1,4 +1,4 @@
-import exceptions.InvalidValueException;
+import exceptions.valueExceptions.InvalidValueException;
 
 public class SavingsAccount extends Account {
     double rate;

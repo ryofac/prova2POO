@@ -2,7 +2,8 @@ package utils;
 
 import java.util.Scanner;
 
-import exceptions.InvalidValueException;
+import exceptions.valueExceptions.InvalidValueException;
+
 
 public class IOUtils {
     private static Scanner sc = new Scanner(System.in, "UTF-8").useDelimiter("\n");

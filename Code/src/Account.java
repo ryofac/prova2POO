@@ -1,6 +1,5 @@
-import exceptions.AccountException;
-import exceptions.InsufficientFundsException;
-import exceptions.InvalidValueException;
+import exceptions.accountExceptions.InsufficientFundsException;
+import exceptions.valueExceptions.InvalidValueException;
 
 public class Account {
     public int id;
