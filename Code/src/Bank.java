@@ -10,15 +10,18 @@ import exceptions.valueExceptions.InvalidValueException;
 
 class Bank {
   List<Account> accounts = new ArrayList<>();
-  int nextId = accounts.size();
+
+
+  private int getNextId(){
+    return accounts.size() <= 0? 1 : accounts.get(accounts.size() - 1).getId() + 1;
+  }
 
   Account createAccount(String name) {
-    int accAmount = nextId;
-    nextId++;
     double initBalance = 0;
     Account newAccount;
+    int nextId = getNextId();
     try {
-      newAccount = new Account(accAmount, name, initBalance);
+      newAccount = new Account(nextId, name, initBalance);
       return newAccount;
 
     } catch (InvalidValueException e) {
@@ -29,12 +32,11 @@ class Bank {
   }
 
   SavingsAccount createSavingsAccount(String name, double rate) {
-    int accAmount = nextId;
-    nextId++;
+    int nextId = getNextId();
     double initBalance = 0;
     SavingsAccount newAccount;
     try {
-      newAccount = new SavingsAccount(accAmount, name, rate, initBalance);
+      newAccount = new SavingsAccount(nextId, name, rate, initBalance);
       return newAccount;
 
     } catch (InvalidValueException e) {
@@ -106,11 +108,14 @@ class Bank {
     }
 
    
-    }
+  }
     
-    public int getAccountAmount(){
-      return accounts.size();
+  public int getAccountAmount(){
+    return accounts.size(); 
+  }
 
+  public List<Account> getAllAccounts(){
+    return accounts;
   }
 
 

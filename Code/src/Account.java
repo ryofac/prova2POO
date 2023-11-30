@@ -5,6 +5,7 @@ public class Account {
     public int id;
     private String name;
     private double balance;
+    private String typeStr = "CC";
 
     public Account(Integer id, String name, double balance) throws InvalidValueException {
         this.id = id;
@@ -81,7 +82,9 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Número: " + getId() + " | " + "Titular: " + getName(); 
+
+        // Tipo;Id;Dono;Saldo
+        return String.format("%s;%d;%s;%f",this.typeStr, this.id, this.name, this.balance); 
     }
 
     // Questão 4

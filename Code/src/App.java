@@ -1,19 +1,28 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import exceptions.accountExceptions.AccountAlreadyExistsException;
 import exceptions.accountExceptions.AccountNotFoundException;
 import exceptions.accountExceptions.InsufficientFundsException;
+import exceptions.fileExceptions.FileException;
+import exceptions.fileExceptions.FileNotSecureException;
 import exceptions.valueExceptions.InvalidValueException;
 import utils.IOUtils;
 
 public class App {
+  final String byeMsgPath = System.getProperty("user.dir") + "/Code/src/data/byeMessages.txt";
+  final String accountsPath = System.getProperty("user.dir") + "/Code/src/data/accounts.txt";
+
   Stack<Runnable> viewStack = new Stack<>();
   Bank patRoBank = new Bank();
   Account loggedAccount;
   String actualMenu;
   int opcao = 0;
   
-
+  
   private Account login() throws AccountNotFoundException{
     int idAccount = IOUtils.getInt("Qual o seu número da conta? \n> ");
     Account foundAcc = patRoBank.findAccountById(idAccount);
@@ -22,32 +31,16 @@ public class App {
   }
 
   private void bye(){
-    String[] byeMessages = {
-      "Até logo, espero que nos encontremos novamente em breve.",
-      "A despedida é difícil, mas as memórias permanecem.",
-      "Partir é inevitável, mas a saudade é opcional.",
-      "Que nossos caminhos se cruzem novamente no futuro.",
-      "A vida é feita de despedidas, mas também de reencontros.",
-      "Dizer adeus não é o fim, é o início de uma nova jornada.",
-      "Levo comigo as lembranças e deixo para trás o que não serve mais.",
-      "A cada adeus, um novo horizonte se revela.",
-      "Despedir-se é abrir espaço para novos capítulos.",
-      "Que a distância fortaleça os laços que nos unem.",
-      "Adeus não é um fim, é um até breve em outra página da vida.",
-      "A despedida é um marco, não um ponto final.",
-      "Partir é uma oportunidade para crescer e aprender.",
-      "O adeus é uma ponte entre o que foi e o que será.",
-      "As despedidas moldam o caminho para novos começos.",
-      "Cada adeus é uma porta que se fecha, mas outras se abrem.",
-      "Na despedida, carregamos as experiências que nos transformaram.",
-      "Despeço-me com gratidão pelos momentos compartilhados.",
-      "Que a vida nos reserve reencontros cheios de alegria.",
-      "A despedida é um adeus temporário, pois a vida é um ciclo de encontros e despedidas."
-    }
-;
-    String selected = byeMessages[(int) (Math.random() * 100) % byeMessages.length];
-    IOUtils.show(selected);
+    List<String> byeMessages = new ArrayList<>();
 
+    try {
+      byeMessages = IOUtils.readFromFile(byeMsgPath);
+      String selected = byeMessages.get((int) (Math.random() * 100) % byeMessages.size());
+      IOUtils.show(selected);
+    } catch (FileException e) {
+      IOUtils.show("Sem mensagens disponíveis por hoje, tchau tchau!");
+      IOUtils.show("Você pode adcionar novas mensagens de tchau no arquivo byeMessages.txt!");
+    }
   }
 
   private void createAccount(int type){
@@ -219,6 +212,16 @@ public class App {
   // Classe App
   public void run(){
     viewStack.push(this::initMenu);
+    try {
+      loadData();
+    } catch (FileNotSecureException e) {
+      System.out.println("Arquivos de dados corrompidos, reescrevendo...");
+      try {
+        IOUtils.writeOnFile("", accountsPath);
+      } catch (FileException e1) {
+        System.out.println("Erro ao reescrever..");
+      }
+    }
 
     do {
       // Questao 14: Adcionado um try dentro do loop principal do app
@@ -236,10 +239,80 @@ public class App {
       }
       
     } while (!viewStack.empty());
+
+    saveData();
     bye();
 
     IOUtils.closeScanner();
   }
+
+  private void loadData() throws FileNotSecureException{
+    List<String> lines;
+    boolean secure = true;
+    try {
+      lines = IOUtils.readFromFile(accountsPath);
+    } catch (FileException e) {
+      IOUtils.show("Erro desconhecido ao ler o arquivo: " + accountsPath);
+      return;
+    }
+    for(String accStr : lines){
+      String[] actualLine = accStr.split(";");
+      switch (actualLine[0]) {
+        case "CC":
+        // Tipo;Id;Dono;Saldo
+          try {
+            patRoBank.addAccount(new Account(Integer.parseInt(actualLine[1]), actualLine[2], Double.parseDouble(actualLine[3])));
+            
+          } catch (InvalidValueException e) {
+            secure = false;
+          } catch (AccountAlreadyExistsException e) {
+            secure = false;
+          } catch (NumberFormatException e) {
+            secure = false;
+          }
+                  
+          break;
+        
+        case "CP":
+        // Tipo;Id;Dono;Saldo;taxa
+        try {
+          patRoBank.addAccount(new SavingsAccount(Integer.parseInt(actualLine[1]), actualLine[2], Double.parseDouble(actualLine[3]), Double.parseDouble(actualLine[4])));
+        } catch (InvalidValueException e) {
+          secure = false;
+        } catch (AccountAlreadyExistsException e) {
+          secure = false;
+        } catch (NumberFormatException e) {
+          secure = false;
+        }  
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    if(!secure) throw new FileNotSecureException("Erro ao carregar: arquivo não seguro");
+    
+  
+    
+
+  }
+
+  private void saveData(){
+    List<Account> accounts = patRoBank.getAllAccounts();
+    String dataToSave = "";
+    for(Account acc : accounts){
+      dataToSave = dataToSave.concat(acc.toString()) + "\n";
+    }
+
+    try{
+      IOUtils.writeOnFile(accountsPath, dataToSave);
+    } catch (FileException e){
+      IOUtils.show("Erro desconhecido ao escrever no arquivo " + accountsPath);
+    }
+    IOUtils.show("Dados salvos!");
+  }
+
   
 }
 
