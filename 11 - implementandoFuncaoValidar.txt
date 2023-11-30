@@ -1,0 +1,1 @@
+Esse método validar é implementado na classe conta, como consta na pasta 06

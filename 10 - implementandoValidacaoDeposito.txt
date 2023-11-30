@@ -1,0 +1,1 @@
+A exceção invalidValue foi reaproveitada para esses casos, como consta na pasta 06
