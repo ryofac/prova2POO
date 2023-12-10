@@ -3,7 +3,7 @@
         "src",
         "Code/src"
     ],
-    "java.project.outputPath": "bin",
+    "java.project.outputPath": "Code/bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
     ]

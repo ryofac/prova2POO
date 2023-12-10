@@ -243,15 +243,3 @@ public class App {
   
 }
 
-/**
- * Aux
- */
-class Aux {
-  public static void main(String[] args) {
-    App newApp = new App();
-    newApp.run();
-  }
-
-
-  
-}
